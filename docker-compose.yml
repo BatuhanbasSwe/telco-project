@@ -1,0 +1,42 @@
+# Oracle XE 21c container - telco proje veritabani
+# Baslangicta init/ klasöründeki SQL scriptleri otomatik calisir:
+#   01_create_tables.sql -> tablo ve index olusturma
+#   02_load_data.sql     -> CSV'lerden veri import
+#
+# Kullanim:
+#   docker compose up -d
+#   docker compose logs -f   (ilerlemeyi takip etmek icin)
+#
+# Baglanti bilgileri:
+#   Host: localhost  Port: 1521  Service: XEPDB1
+#   Kullanici: telco  Sifre: telco123
+
+services:
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: telco_oracle
+    environment:
+      ORACLE_PASSWORD: telco123      # SYS ve SYSTEM sifresi
+      APP_USER: telco                # Uygulama kullanicisi
+      APP_USER_PASSWORD: telco123    # Uygulama kullanicisi sifresi
+    ports:
+      - "1521:1521"
+    volumes:
+      # Init scriptleri: container ilk acildiginda otomatik calisir
+      - ./init:/container-entrypoint-initdb.d:ro
+      # CSV dosyalari: external table tanimi icin container icerisine aktarilir
+      - ./CUSTOMERS.csv:/opt/oracle/data/CUSTOMERS.csv:ro
+      - ./MONTHLY_STATS.csv:/opt/oracle/data/MONTHLY_STATS.csv:ro
+      - ./TARIFFS.csv:/opt/oracle/data/TARIFFS.csv:ro
+      # Veritabani kaliciligi: container silinse bile veriler korunur
+      - oracle_data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+
+volumes:
+  oracle_data:
+    driver: local
