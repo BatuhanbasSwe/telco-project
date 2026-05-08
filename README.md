@@ -1,4 +1,4 @@
-# Telco Project — i2i Systems Staj Görevi
+# Telco Project — i2i Systems 
 
 Bu repo, **i2i Systems** staj başvurusu kapsamında verilen telekom veritabanı görevinin çözümünü içerir. Oracle XE 21c üzerinde şema tasarımı, CSV veri import'u, 6 kategori altında 11 SQL sorgusu ve bonus olarak `docker-compose` tabanlı tek komutla kurulabilen otomatik seed'li ortam sağlanmıştır.
 
