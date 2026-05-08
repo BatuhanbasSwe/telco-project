@@ -205,6 +205,6 @@ Tüm sorgular ve detaylı Türkçe açıklamaları → [`SOLUTIONS.sql`](SOLUTIO
 
 ---
 
-**Geliştirici:** Batuhan Oğuz
+**Developer:** Cemal Batuhan Baş
 **Veritabanı:** Oracle XE 21c
 **Araçlar:** Docker, DBeaver
